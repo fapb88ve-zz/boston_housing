@@ -12200,7 +12200,12 @@ Standard deviation of prices: $165171.13154429477
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong> The golden rule of training models states that the model should never be trained using the test data, given that, if used, the model will just memorize the data rather than "learn" from it. This implies that when newer data comes in through the pipeline, it will not generelize well (overfitted).</p>
+<p><strong>Answer: </strong> Models, in most cases, are essentially a type of theory about reality, rather than a descriptive statement of the current batch of data at our disposal; that's what allows us to use them as tool to predict the future. Yet the future, given that we dont have access to it, makes us ponder about the quality of the predictions we're making. Will predictions be accurate or not? If they are incorrect, how far off the mark were they? Are they consistent in their errors or accuracy?</p>
+<p>One way to answer these questions is to simulate the present-future problem with the current batch of data that is available to us: split the data and treat a portion of it as the "future" data (testing set) that is not available; the rest of it (training set) is the bit that can be assumed as the present and, therefore, known.</p>
+<p>It is precisely with the training set that the model is developed from. All model's performance rely on a certain set of parameters that need to be figured out in order to guarantee accuracy in our predictions. So, from this dataset is that the Data Scientist figures out which type of model and the parameters that work best for them for the task at hand. At later stages, the testing set is used to validate the performance of the model.</p>
+<p>As such, if less than adequate training data is fed to the model, it could potentially develop false assumptions about the phenomenon studied. For example, it could be led to "think" that the best fit could be a polynomial of degree 1 when in reality it would better with one of 3; it could also be led astray by the lack of the proper presence of certain categories in the data. All of these are examples of "underfitting" and will ultimately cause the model to make bad predictions.</p>
+<p>On the other hand, if the model is over-fed data during the training portion of the workflow, it could mean that the model will end up "memorizing" the data as opposed to figuring out the patterns in it. This implies that, when provided newer batches of data, the model will not generalize its learning and therefore perform badly.</p>
+<p>Splitting the data also serves the purpose of avoiding overfitting the model, given that it provides two distinct datasets that must be used in different stages of the workflow. If this rule is not respected, then we can end up modifying the parameters of the model in order to guarantee better scoring when evaluating performance.</p>
 
 </div>
 </div>
@@ -13291,6 +13296,7 @@ Think about the pros and cons of adding more training points based on if the tra
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> From the Learning Curve graphs shown before, it can be shown that the best fit for the data is a model with a <code>max_depth</code> of 3, given that both testing and training curves seem to converge on a particular scoring value and, also, the scoring value is the highest of those that do.</p>
+<p>Considering more data in this case will not neccessarily benefit the data, given that it will only add more information for the computer to process, and, as such, spend more resources (time and computational) in doing so.</p>
 
 </div>
 </div>
@@ -13976,7 +13982,7 @@ For the <code>fit_model</code> function in the code cell below, you will need to
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong> Hint: </strong> The answer comes from the output of the code snipped above.</p>
-<p><strong>Answer: </strong> Parameter 'max_depth' is 4 for the optimal model.</p>
+<p><strong>Answer: </strong> Parameter 'max_depth' is 4 for the optimal model. This lines up nicely with the previous assumption that the best 'max_depth' for the model is that of 3, except that now there can be more confidence in this assumption because that conclusion was reached after doing a grid search where different values for this parameters were tested.</p>
 
 </div>
 </div>
@@ -14069,10 +14075,8 @@ Predicted selling price for Client 3&#39;s home: $931,636.36
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
-<p>1) Client 1: $403,025.00</p>
-<p>2) Client 2: $237,478.72</p>
-<p>3) Client 3: $931,636.36</p>
+<p><strong>Answer: </strong> There's no surprise in terms of Client 3's <code>MEDV</code> given that out of the three, it has the house with best attributes: it has 8 rooms (it can be supposed that it is very spacious), it has 3% neighborhood poverty level and a 12-1 student-teacher ration. Perhaps what is more interesting to study are the other two clients.</p>
+<p>Assuming the model was properly constructed, the other clients prices indicate that the neighborhood poverty levels and student-teacher ratio play a very important role in determining value of the houses. Let's consider the total number of rooms of client 1 and 2: 5, and 4, respectively; there is very little difference in between these. But, there are significant differences in the other two variables. So the bigger these two get, the lower the price will tend to be for client's house. As such, it makes perfect sense that Client 2's house is priced lower than the other, given that it scores signficantly worse in both these variables.</p>
 
 </div>
 </div>
@@ -14153,7 +14157,14 @@ Range in prices: $69,044.61
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> The model works to a certain extent, given that there is a big variance of $69K between the smallest and largest price predicted. So, the model applies, as long as Trial 9 is regarded as an outlier and discarded. If so, I would consider the model robust, given that the majority of the predictions tend to fall relatively close to one another.</p>
-<p>To expand the model, it would be a good idea to add more features to the model like for example if the house has a presence of a pool and square feet of the plot area.</p>
+<p>To expand the model, it would be a good idea to add more features to it like, for example, if the house has a presence of a pool and square feet of the plot area. But, at the same time, it would be a good idea to study the effect of adding this last variable to the model, given that there's already a variable that meassures how "spacious" a house is (number of rooms) included in the model; the marginal gain in performance might not justify the cost of obtaining the data and/or the computational cost or time of including it in the model. Other examples of variables that could be incoporated are:</p>
+<ul>
+<li>Population density of the neighborhood.</li>
+<li>Median wages of the people that live there.</li>
+<li>Presence of parks, libraries, and other ammenities.</li>
+<li>Distance to the beach.</li>
+<li>Amount of cars per family that live there.</li>
+</ul>
 <p>Now, this model in particular, suits well the purpose of predicting house prices in the same city, given that these tend to be subject to the same market conditions. This model would not work well for other city, let alone rural cities.</p>
 
 </div>
